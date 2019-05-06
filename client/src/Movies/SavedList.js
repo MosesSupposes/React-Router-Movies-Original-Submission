@@ -9,10 +9,11 @@ export default class SavedList extends Component {
   }
 
   render() {
+    const { removeFromSavedList } = this.props
     return (
       <div className="saved-list">
         <h3>Saved Movies:</h3>
-        {this.props.list.map(renderNavLink)}
+        {this.props.list.map(renderNavLink({removeFromSavedList}))}
         <Link to="/">
           <div className="home-button">Home</div>
         </Link>
@@ -21,6 +22,8 @@ export default class SavedList extends Component {
   }
 }
 
-function renderNavLink(movie, i) {
-  return <NavLink key={i} movie={movie} />
+function renderNavLink(props) {
+  return function mapperFn(movie, i) {
+    return <NavLink {...props} key={i} movie={movie} />
+  }
 }
