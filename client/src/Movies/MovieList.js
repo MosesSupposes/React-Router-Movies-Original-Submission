@@ -22,15 +22,26 @@ export default class MovieList extends Component {
   }
 
   render() {
+    const { addToSavedList } = this.props
     return (
       <div className="movie-list">
-        {this.state.movies.map(renderMovieCard)}
+        {
+          this.state.movies.map(
+            renderMovieCard({addToSavedList: addToSavedList})
+          )
+        }
       </div>
     );
   }
 }
 
-function renderMovieCard(value, i) {
-  return <MovieCard key={i} movie={value} />
+function renderMovieCard(props) {
+  return function mapperFn(movie, i) {
+    return <MovieCard 
+              {...props}
+              key={i} 
+              movie={movie} 
+            />
+  }
 }
 
