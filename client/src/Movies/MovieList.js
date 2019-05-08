@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MovieCard from './MovieCard'
 import axios from 'axios';
 
 export default class MovieList extends Component {
@@ -21,34 +22,24 @@ export default class MovieList extends Component {
   }
 
   render() {
+    const { addToSavedList } = this.props
     return (
       <div className="movie-list">
-        {this.state.movies.map(movie => (
-          <MovieDetails key={movie.id} movie={movie} />
-        ))}
+        {
+          this.state.movies.map(renderMovieCard({addToSavedList}))
+        }
       </div>
     );
   }
 }
 
-function MovieDetails({ movie }) {
-  const { title, director, metascore, stars } = movie;
-  return (
-    <div className="movie-card">
-      <h2>{title}</h2>
-      <div className="movie-director">
-        Director: <em>{director}</em>
-      </div>
-      <div className="movie-metascore">
-        Metascore: <strong>{metascore}</strong>
-      </div>
-      <h3>Actors</h3>
-
-      {stars.map(star => (
-        <div key={star} className="movie-star">
-          {star}
-        </div>
-      ))}
-    </div>
-  );
+function renderMovieCard(props) {
+  return function mapperFn(movie, i) {
+    return <MovieCard 
+              {...props}
+              key={i} 
+              movie={movie} 
+            />
+  }
 }
+
